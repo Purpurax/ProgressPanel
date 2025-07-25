@@ -1,11 +1,31 @@
 {
     "iot_devices": [
-        { "name": "Top Lamp", "on": true, "icon": "images/top_lamp.png", "color_index": 9 },
-        { "name": "Night Light", "on": false, "icon": "images/night_light.png", "color_index": 10 },
-        { "name": "AI", "on": false, "icon": "images/voice_assistant.png", "color_index": 11 },
-        { "name": "Computer", "on": true, "icon": "images/computer.png", "color_index": 12 }
+        {
+            "name": "Top Lamp",
+            "state": "off",
+            "icon": "images/top_lamp.png",
+            "color_index": 12
+        },
+        {
+            "name": "Night Light",
+            "state": "on",
+            "icon": "images/night_light.png",
+            "color_index": 12
+        },
+        {
+            "name": "AI",
+            "state": "unavailable",
+            "icon": "images/voice_assistant.png",
+            "color_index": 12
+        },
+        {
+            "name": "Computer",
+            "state": "on",
+            "icon": "images/computer.png",
+            "color_index": 12
+        }
     ],
-    "showing_project": 1,
+    "showing_project": 0,
     "projects": [
         {
             "full_name": "University",
@@ -18,14 +38,24 @@
                     "name": "ESE",
                     "color_index": 13,
                     "todos": [
-                        { "text": "Finish ESE", "category": 0, "deadline": 0, "done": true }
+                        {
+                            "text": "Finish ESE",
+                            "category": 0,
+                            "deadline": 0,
+                            "done": true
+                        }
                     ]
                 },
                 {
                     "name": "MCI",
                     "color_index": 16,
                     "todos": [
-                        { "text": "Finish MCI", "category": 1, "deadline": 0, "done": true }
+                        {
+                            "text": "Finish MCI",
+                            "category": 1,
+                            "deadline": 0,
+                            "done": true
+                        }
                     ]
                 }
             ]
@@ -41,14 +71,24 @@
                     "name": "UI",
                     "color_index": 2,
                     "todos": [
-                        { "text": "Finish UI", "category": 0, "deadline": 0, "done": true }
+                        {
+                            "text": "Finish UI",
+                            "category": 0,
+                            "deadline": 0,
+                            "done": true
+                        }
                     ]
                 },
                 {
                     "name": "Code",
                     "color_index": 3,
                     "todos": [
-                        { "text": "Finish Code", "category": 1, "deadline": 0, "done": false }
+                        {
+                            "text": "Finish Code",
+                            "category": 1,
+                            "deadline": 0,
+                            "done": false
+                        }
                     ]
                 }
             ]

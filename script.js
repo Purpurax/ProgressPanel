@@ -110,14 +110,31 @@ function configure_iot_devices(iot_devices) {
     iotGrid.innerHTML = '';
     iot_devices.forEach(device => {
         const btn = document.createElement('button');
-        btn.className = 'iot-btn' + (device.on ? ' on' : '');
+        btn.className = 'iot-btn' + (device.state == 'on' ? ' on' : '');
         btn.innerHTML = `<img src="${device.icon}" width="48" height="48">`;
+
         const onColor = COLOR_PALETTE[device.color_index];
-        btn.style.backgroundColor = device.on ? onColor : '';
+        const unavailableColor = COLOR_PALETTE[6];
+
+        if (device.state == 'on') {
+            btn.style.backgroundColor = onColor;
+        } else if (device.state == 'off') {
+            btn.style.backgroundColor = '';
+        } else {
+            btn.style.backgroundColor = unavailableColor;
+        }
+
         btn.onclick = () => {
             device.on = !device.on;
-            btn.classList.toggle('on', device.on);
-            btn.style.backgroundColor = device.on ? onColor : '';
+            btn.classList.toggle('on', device.on == 'on');
+            
+            if (device.state == 'on') {
+                btn.style.backgroundColor = onColor;
+            } else if (device.state == 'off') {
+                btn.style.backgroundColor = '';
+            } else {
+                btn.style.backgroundColor = unavailableColor;
+            }
             // fetch('data.json', {
             //     method: 'PUT',
             //     headers: { 'Content-Type': 'application/json' },

@@ -1,0 +1,3 @@
+homeassistant:
+    url: 'http://192.168.0.6:8123/api'
+    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI1NmFkNjc0NjhhYTQ0YWY1YmUyYmRhMWJiNzNjMjE1YSIsImlhdCI6MTcxNjc0OTU1OCwiZXhwIjoyMDMyMTA5NTU4fQ.5DobsT9g2Avqnsme85DyGfk_R4mmRMJ4V7Ua2ohT93s'

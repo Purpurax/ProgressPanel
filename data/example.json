@@ -1,9 +1,9 @@
 {
     "iot_devices": [
-        { "name": "Top Lamp", "on": true, "icon": "images/top_lamp.png", "color_index": 9 },
-        { "name": "Night Light", "on": false, "icon": "images/night_light.png", "color_index": 10 },
-        { "name": "AI", "on": false, "icon": "images/voice_assistant.png", "color_index": 11 },
-        { "name": "Computer", "on": true, "icon": "images/computer.png", "color_index": 12 }
+        { "name": "Top Lamp", "state": "on", "icon": "images/top_lamp.png", "color_index": 9 },
+        { "name": "Night Light", "state": "off", "icon": "images/night_light.png", "color_index": 10 },
+        { "name": "AI", "state": "unavailable", "icon": "images/voice_assistant.png", "color_index": 11 },
+        { "name": "Computer", "state": "on", "icon": "images/computer.png", "color_index": 12 }
     ],
     "showing_project": 1,
     "projects": [
