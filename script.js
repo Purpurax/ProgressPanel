@@ -22,6 +22,13 @@ fetch('data/data.json')
         configure_iot_devices(data.iot_devices);
     });
 
+const calendarIframe = document.querySelector("iframe[src*='calendar.google.com']");
+if (calendarIframe) {
+    calendarIframe.addEventListener("load", function () {
+        console.log("CALENDAR_IFRAME_LOADED");
+    });
+}
+
 function configure_active_project(active_project) {
     // Total progress bar
     const fg = document.querySelector('.foreground');
@@ -56,51 +63,72 @@ function configure_active_project(active_project) {
             return a.deadline - b.deadline;
         })
         .forEach(todo => {
-            const li = document.createElement('li');
-            if (todo.done) li.classList.add('completed');
-
+            const wrapper = document.createElement('li');
+            if (todo.done) wrapper.classList.add('completed');
+            
+            const color = COLOR_PALETTE[todo.color_index];
             const checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
             checkbox.className = 'todo-checkbox';
             checkbox.checked = todo.done;
-            const color = COLOR_PALETTE[todo.color_index];
             checkbox.style.borderColor = color;
             checkbox.style.background = checkbox.checked ? color : '#ffffff';
-            checkbox.addEventListener('change', function() {
-                // todo.completed = checkbox.checked;
-                li.classList.toggle('completed', checkbox.checked);
+
+            const btn = document.createElement('button');
+            btn.className = 'todo-btn';
+            btn.style.position = 'absolute';
+            btn.style.top = 0;
+            btn.style.left = 0;
+            btn.style.width = '100%';
+            btn.style.height = '100%';
+            btn.style.opacity = 0;
+            btn.style.cursor = 'pointer';
+            btn.style.border = 'none';
+            btn.style.background = 'transparent';
+            btn.tabIndex = -1;
+
+            wrapper.style.position = 'relative';
+            wrapper.appendChild(btn);
+
+            const hiddenDiv = document.createElement('div');
+            hiddenDiv.style.display = 'none';
+            hiddenDiv.textContent = "TODO_CLICK=" + todo.json_location;
+            hiddenDiv.setAttribute('tag', 'function');
+            btn.appendChild(hiddenDiv);
+
+            btn.onclick = () => {
+                console.log(hiddenDiv.textContent)
+                checkbox.checked = !checkbox.checked;
+                wrapper.classList.toggle('completed', checkbox.checked);
                 checkbox.style.background = checkbox.checked ? color : '#ffffff';
-                // fetch('data.json', {
-                //     method: 'PUT',
-                //     headers: { 'Content-Type': 'application/json' },
-                //     body: JSON.stringify(data, null, 2)
-                // });
-            });
+            };
 
             const span = document.createElement('span');
             span.className = 'todo-text';
             span.textContent = todo.text;
 
-            li.style.background = '';
-            li.style.color = '';
-            li.style.opacity = todo.done ? 0.6 : 1;
+            wrapper.style.background = '';
+            wrapper.style.color = '';
+            wrapper.style.opacity = todo.done ? 0.6 : 1;
 
-            li.appendChild(checkbox);
-            li.appendChild(span);
-            todoList.appendChild(li);
+            wrapper.appendChild(checkbox);
+            wrapper.appendChild(span);
+            todoList.appendChild(wrapper);
     });
 }
 
 function configure_other_projects(data) {
-    const not_active_projects = data.projects.filter((_, idx) => idx !== data.showing_project);
+    const not_active_projects = data.projects
+        .map((project, idx) => ({ project, idx }))
+        .filter(({ idx }) => idx !== data.showing_project);
     const project_progresses = document.getElementById('middle-panel');
     
-    not_active_projects.forEach(project => {
+    not_active_projects.forEach(({ project, idx }) => {
         const color = COLOR_PALETTE[project.general_color_index];
         const total_todos = project.categories.map(category => category.todos.length).reduce((a, b) => a + b, 0);
         const finished_todos = project.categories.map(category => category.todos.filter((todo, _) => todo.done).length).reduce((a, b) => a + b, 0);
 
-        const circular_progress = createProgressMiddlePanel(finished_todos * 100 / total_todos, project.icon_image, project.short_name, color);
+        const circular_progress = createProgressMiddlePanel(finished_todos * 100 / total_todos, project.icon_image, project.short_name, color, idx);
         project_progresses.appendChild(circular_progress);
     });
 }
@@ -113,6 +141,12 @@ function configure_iot_devices(iot_devices) {
         btn.className = 'iot-btn' + (device.state == 'on' ? ' on' : '');
         btn.innerHTML = `<img src="${device.icon}" width="48" height="48">`;
 
+        const hiddenDiv = document.createElement('div');
+        hiddenDiv.style.display = 'none';
+        hiddenDiv.textContent = "IOT_CLICK=" + device.entity_id;
+        hiddenDiv.setAttribute('tag', 'function');
+        btn.appendChild(hiddenDiv);
+        
         const onColor = COLOR_PALETTE[device.color_index];
         const unavailableColor = COLOR_PALETTE[6];
 
@@ -125,6 +159,7 @@ function configure_iot_devices(iot_devices) {
         }
 
         btn.onclick = () => {
+            console.log(hiddenDiv.textContent)
             device.on = !device.on;
             btn.classList.toggle('on', device.on == 'on');
             
@@ -135,11 +170,6 @@ function configure_iot_devices(iot_devices) {
             } else {
                 btn.style.backgroundColor = unavailableColor;
             }
-            // fetch('data.json', {
-            //     method: 'PUT',
-            //     headers: { 'Content-Type': 'application/json' },
-            //     body: JSON.stringify(data, null, 2)
-            // });
         };
         iotGrid.appendChild(btn);
     });
@@ -167,8 +197,13 @@ function createProgressLeftPanel(percent, text, color = '#2ecc40') {
     return wrapper;
 }
 
-function createProgressMiddlePanel(percent, icon, text, color) {
-    const wrapper = document.createElement('div');
+function createProgressMiddlePanel(percent, icon, text, color, index) {
+    const wrapper = document.createElement('button');
+    wrapper.style.border = 'none';
+    wrapper.style.outline = 'none';
+    wrapper.style.cursor = 'pointer';
+    wrapper.style.padding = '0';
+    wrapper.style.margin = '0';
     wrapper.style.position = 'relative';
     wrapper.style.display = 'flex';
     wrapper.style.flexDirection = 'column';
@@ -193,5 +228,16 @@ function createProgressMiddlePanel(percent, icon, text, color) {
         </div>
     `;
     wrapper.innerHTML = iconImg + textHtml;
+
+    const hiddenDiv = document.createElement('div');
+    hiddenDiv.style.display = 'none';
+    hiddenDiv.textContent = "MIDDLE_PANEL=" + index;
+    hiddenDiv.setAttribute('tag', 'function');
+    wrapper.appendChild(hiddenDiv);
+
+    wrapper.onclick = () => {
+        console.log(hiddenDiv.textContent)
+    };
+
     return wrapper;
 }

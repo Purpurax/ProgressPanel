@@ -14,10 +14,18 @@ Software:
 - Calendar iframe link from google
 
 ## Installation
-
+```
+sudo apt-get install -y libicu66 libwebp6 libffi7
+python -m venv .env
+source .env/bin/activate
+pip install playwright
+python -m playwright install
+```
+Go through the config.yaml in the data folder and make sure the token works for the homeassistant api
 
 ## Execution
-
+When the google calendar requires a new sign in, please use: \
+`python image_render.py --sign-in`
 
 ## Next Features (developer only)
 - Scrape the data from the todo list

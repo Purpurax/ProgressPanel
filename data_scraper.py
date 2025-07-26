@@ -1,11 +1,13 @@
-import yaml
-import json
+import yaml, json
 
-CONFIG_PATH = "config.yaml"
+CONFIG_PATH = "data/config.yaml"
 
 config = None
 with open(CONFIG_PATH, "r") as file:
     config = yaml.safe_load(file)
+
+if config is None:
+    print("The config path does not lead to any config.yaml file")
 
 data = {}
 
@@ -18,7 +20,7 @@ state_computer = "unavailable"
 try:
     from homeassistant_api import Client
 
-    client = Client(config["homeassistant"]["url"], config["homeassistant"]["token"])
+    client = Client(config["homeassistant_url"], config["homeassistant_token"])
 
     night_light = client.get_entity(entity_id="light.light_night")
     state_night_light = night_light.get_state().state
@@ -32,10 +34,31 @@ except Exception as e:
     print(f"Couldn't set up the IoT devices because {e}")
 
 data["iot_devices"] = [
-    {"name": "Top Lamp", "state": state_top_lamp, "icon": "images/top_lamp.png", "color_index": 12},
-    {"name": "Night Light", "state": state_night_light, "icon": "images/night_light.png", "color_index": 12},
-    {"name": "AI", "state": state_ai, "icon": "images/voice_assistant.png", "color_index": 12},
-    {"name": "Computer", "state": state_computer, "icon": "images/computer.png", "color_index": 12}
+    {
+        "name": "Top Lamp",
+        "state": state_top_lamp,
+        "entity_id": "input_boolean.main_light",
+        "icon": "images/top_lamp.png",
+        "color_index": 12
+    },
+    {
+        "name": "Night Light",
+        "state": state_night_light,
+        "entity_id": "light.light_night",
+        "icon": "images/night_light.png",
+        "color_index": 12},
+    {
+        "name": "AI",
+        "state": state_ai,
+        "entity_id": "",
+        "icon": "images/voice_assistant.png",
+        "color_index": 12},
+    {
+        "name": "Computer",
+        "state": state_computer,
+        "entity_id": "light.computer",
+        "icon": "images/computer.png",
+        "color_index": 12}
 ]
 
 # Internal state (resetting at 3am)
@@ -54,14 +77,26 @@ data["projects"] = [
                 "name": "ESE",
                 "color_index": 13,
                 "todos": [
-                    { "text": "Finish ESE", "category": 0, "deadline": 0, "done": True }
+                    {
+                        "text": "Finish ESE",
+                        "json_location": "Table,#(#,Uni,#/#,0",
+                        "category": 0,
+                        "deadline": 0,
+                        "done": True
+                    }
                 ]
             },
             {
                 "name": "MCI",
                 "color_index": 16,
                 "todos": [
-                    { "text": "Finish MCI", "category": 1, "deadline": 0, "done": True }
+                    {
+                        "text": "Finish MCI",
+                        "json_location": "Table,#(#,Uni,#/#,1",
+                        "category": 1,
+                        "deadline": 0,
+                        "done": True
+                    }
                 ]
             }
         ]
@@ -77,14 +112,26 @@ data["projects"] = [
                 "name": "UI",
                 "color_index": 2,
                 "todos": [
-                    { "text": "Finish UI", "category": 0, "deadline": 0, "done": True }
+                    {
+                        "text": "Finish UI",
+                        "json_location": "Table,#(#,Chess,#/#,0",
+                        "category": 0,
+                        "deadline": 0,
+                        "done": True
+                    }
                 ]
             },
             {
                 "name": "Code",
                 "color_index": 3,
                 "todos": [
-                    { "text": "Finish Code", "category": 1, "deadline": 0, "done": False }
+                    {
+                        "text": "Finish Code",
+                        "json_location": "Table,#(#,Chess,#/#,1",
+                        "category": 1,
+                        "deadline": 0,
+                        "done": False
+                    }
                 ]
             }
         ]
@@ -107,5 +154,5 @@ data["projects"] = [
 
 # Other
 
-with open("data/data.json", "w", encoding="utf-8") as file:
+with open(config["data_path"], "w", encoding="utf-8") as file:
     json.dump(data, file, ensure_ascii=False, indent=4)

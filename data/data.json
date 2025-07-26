@@ -3,24 +3,28 @@
         {
             "name": "Top Lamp",
             "state": "off",
+            "entity_id": "input_boolean.main_light",
             "icon": "images/top_lamp.png",
             "color_index": 12
         },
         {
             "name": "Night Light",
             "state": "on",
+            "entity_id": "light.light_night",
             "icon": "images/night_light.png",
             "color_index": 12
         },
         {
             "name": "AI",
             "state": "unavailable",
+            "entity_id": "",
             "icon": "images/voice_assistant.png",
             "color_index": 12
         },
         {
             "name": "Computer",
             "state": "on",
+            "entity_id": "light.computer",
             "icon": "images/computer.png",
             "color_index": 12
         }
@@ -40,6 +44,7 @@
                     "todos": [
                         {
                             "text": "Finish ESE",
+                            "json_location": "Table,#(#,Uni,#/#,0",
                             "category": 0,
                             "deadline": 0,
                             "done": true
@@ -52,6 +57,7 @@
                     "todos": [
                         {
                             "text": "Finish MCI",
+                            "json_location": "Table,#(#,Uni,#/#,1",
                             "category": 1,
                             "deadline": 0,
                             "done": true
@@ -73,6 +79,7 @@
                     "todos": [
                         {
                             "text": "Finish UI",
+                            "json_location": "Table,#(#,Chess,#/#,0",
                             "category": 0,
                             "deadline": 0,
                             "done": true
@@ -85,6 +92,7 @@
                     "todos": [
                         {
                             "text": "Finish Code",
+                            "json_location": "Table,#(#,Chess,#/#,1",
                             "category": 1,
                             "deadline": 0,
                             "done": false
