@@ -283,7 +283,7 @@
                 },
                 {
                     "name": "Precision",
-                    "color_index": 13,
+                    "color_index": 14,
                     "todos": [
                         {
                             "text": "Confirmations",
@@ -313,7 +313,7 @@
                 },
                 {
                     "name": "Testing",
-                    "color_index": 13,
+                    "color_index": 15,
                     "todos": [
                         {
                             "text": "State Testing",
@@ -325,7 +325,7 @@
                 },
                 {
                     "name": "Feature",
-                    "color_index": 13,
+                    "color_index": 16,
                     "todos": [
                         {
                             "text": "Interaction Mode",

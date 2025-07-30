@@ -39,18 +39,16 @@ function configure_active_project(active_project) {
 
     // Category progress bars
     const circleList = document.getElementById('circle-progress-list');
-    const total_todos = active_project.categories.map(category => category.todos.length).reduce((a, b) => a + b, 0);
-    active_project.categories.forEach(category => {
-        const color = COLOR_PALETTE[category.color_index];
-        const total_todos_of_category = category.todos.length;
-
-        const circular_progress = createProgressLeftPanel(
-            total_todos_of_category * 100 / total_todos,
-            category.name,
-            color
-        );
-        circleList.appendChild(circular_progress);
-    });
+    const lala = createProgressByCategory(
+        active_project.categories.map(category =>
+            [
+                category.name,
+                category.todos.length,
+                COLOR_PALETTE[category.color_index]
+            ]
+        )
+    );
+    circleList.appendChild(lala);
 
     // Full Todo list
     const todoList = document.getElementById('todo-list');
@@ -181,38 +179,69 @@ function configure_iot_devices(iot_devices) {
 
 
 
-function createProgressLeftPanel(percent, text, color = '#2ecc40') {
+function createProgressByCategory(category_values) {
+    const sorted = [...category_values].sort((a, b) => b[1] - a[1]);
+    const total = sorted.reduce((sum, [, count]) => sum + count, 0);
+
     const wrapper = document.createElement('div');
-    const size = 65;
-    wrapper.style.position = 'relative';
-    wrapper.style.width = wrapper.style.height = size + 'px';
-    const fontSize = size / 4;
-    // Use a span with inline style and set max-width to fit the box, use CSS clamp for font-size
-    const circleSvg = `
-        <svg width="${size}" height="${size}">
-            <circle cx="${size/2}" cy="${size/2}" r="${(size/2)-8}" stroke="#e0e0e0" stroke-width="8" fill="none"/>
-            <circle cx="${size/2}" cy="${size/2}" r="${(size/2)-8}" stroke="${color}" stroke-width="8" fill="none"
-                stroke-dasharray="${2 * Math.PI * ((size/2)-8)}"
-                stroke-dashoffset="${2 * Math.PI * ((size/2)-8) * (1 - percent/100)}"
-                style="transition: stroke-dashoffset 0.5s;"/>
-        </svg>
-        <span style="
-            position:absolute;
-            top:50%;
-            left:50%;
-            transform:translate(-50%,-50%);
-            font-size:clamp(10px, ${fontSize}px, ${fontSize}px);
-            font-weight:bold;
-            color:#333;
-            pointer-events:none;
-            max-width:${size - 16}px;
-            text-align:center;
-            display:inline-block;
-        ">${text}</span>
-    `;
-    // const iconImg = icon ? `<img src="${icon}" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:${size/2}px;height:${size/2}px;">` : '';
-    wrapper.innerHTML = circleSvg;
+    wrapper.style.display = 'flex';
+    wrapper.style.alignItems = 'center';
+    wrapper.style.width = '100%';
+    wrapper.style.height = '10%';
+    wrapper.style.margin = '16px 0';
+
+    const bar = document.createElement('div');
+    bar.style.display = 'flex';
+    bar.style.height = '28px';
+    bar.style.width = '100%';
+    bar.style.borderRadius = '8px';
+    bar.style.overflow = 'hidden';
+    bar.style.boxShadow = '0 1px 4px rgba(0,0,0,0.06)';
+    bar.style.position = 'relative';
+
+    sorted.forEach(([name, count, color]) => {
+        const percent = total === 0 ? 0 : (count / total) * 100;
+        const segment = document.createElement('div');
+        segment.style.flex = percent + ' 0 0';
+        segment.style.background = color;
+        segment.style.height = '100%';
+        segment.style.position = 'relative';
+        segment.title = `${name}: ${count} (${percent.toFixed(1)}%)`;
+
+        // If segment is big enough, show label inside
+        if (percent > 25) {
+            const label = document.createElement('span');
+            label.textContent = name;
+            label.style.position = 'absolute';
+            label.style.left = '50%';
+            label.style.top = '50%';
+            label.style.transform = 'translate(-50%, -50%)';
+            label.style.fontWeight = 'bold';
+            label.style.fontSize = '0.95em';
+            label.style.textWrap = 'nowrap';
+            // Choose readable color
+            label.style.color = getContrastYIQ(color);
+            segment.appendChild(label);
+        }
+
+        bar.appendChild(segment);
+    });
+
+    wrapper.appendChild(bar);
+
     return wrapper;
+
+    function getContrastYIQ(hexcolor) {
+        hexcolor = hexcolor.replace('#', '');
+        if (hexcolor.length === 3) {
+            hexcolor = hexcolor.split('').map(x => x + x).join('');
+        }
+        const r = parseInt(hexcolor.substr(0,2),16);
+        const g = parseInt(hexcolor.substr(2,2),16);
+        const b = parseInt(hexcolor.substr(4,2),16);
+        const yiq = ((r*299)+(g*587)+(b*114))/1000;
+        return (yiq >= 128) ? '#222' : '#fff';
+    }
 }
 
 function createProgressMiddlePanel(percent, icon, text, color, index) {
