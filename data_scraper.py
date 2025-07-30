@@ -20,7 +20,6 @@ state_ai = "unavailable"
 state_computer = "unavailable"
 
 try:
-    print(0 / 0)
     from homeassistant_api import Client
 
     client = Client(config["homeassistant_url"], config["homeassistant_token"])

@@ -1,5 +1,4 @@
-import json, yaml
-
+import json, yaml, os
 
 class TouchInteract:
     def __init__(self):
@@ -29,8 +28,31 @@ class TouchInteract:
                 return entry["text"]
         return None
 
-    def mark_todo(self, location):
-        print("todo instruction")
+    def mark_todo(self, toggle_cell_id):
+        todo_data = None
+        with open(os.path.expanduser(self.config["todo_data_path"]), "r") as file:
+            todo_data = json.load(file)
+        
+        if todo_data is None:
+            print("Failed to load in the todo data path, so the task cannot be marked as done")
+            return
+        
+        found_and_modified_toggle_cell = False
+        for cell in todo_data["cells"]:
+            if cell["id"] == toggle_cell_id and cell["cell_type"]["Toggle"] is not None:
+                cell["cell_type"]["Toggle"] = not cell["cell_type"]["Toggle"]
+                if cell["cell_type"]["Toggle"]:
+                    cell["content"] = "◈"
+                else:
+                    cell["content"] = "◇"
+                found_and_modified_toggle_cell = True
+                break
+        
+        if not found_and_modified_toggle_cell:
+            print("Unable to modify the toggle cell as its id (" + str(toggle_cell_id) + ") was not found")
+        else:
+            with open(os.path.expanduser(self.config["todo_data_path"]), "w") as f:
+                json.dump(todo_data, f, separators=(',', ':'))
 
     def toggle_iot_device(self, entity_id):
         try:
@@ -60,13 +82,13 @@ class TouchInteract:
             print("Unable to parse to an index to change the data.json state")
 
     def apply_instruction(self, instruction):
-        instruction_type, location = instruction.split("=", 1)
+        instruction_type, progress_cell_id = instruction.split("=", 1)
         if instruction_type == "TODO_CLICK":
-            self.mark_todo(location)
+            self.mark_todo(int(progress_cell_id))
         elif instruction_type == "IOT_CLICK":
-            self.toggle_iot_device(location)
+            self.toggle_iot_device(progress_cell_id)
         elif instruction_type == "MIDDLE_PANEL":
-            self.change_data_json_state(int(location))
+            self.change_data_json_state(int(progress_cell_id))
         else:
             print("Unclear Instruction: " + str(instruction_type))
 
@@ -77,4 +99,4 @@ class TouchInteract:
 
 if __name__ == "__main__":
     touch_interact = TouchInteract()
-    touch_interact.apply_touch(420.0, 130.0)
+    touch_interact.apply_touch(20.0, 200.0)
