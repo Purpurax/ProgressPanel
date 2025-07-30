@@ -126,11 +126,13 @@ function configure_other_projects(data) {
     const project_progresses = document.getElementById('middle-panel');
     
     not_active_projects.forEach(({ project, idx }) => {
-        const color = COLOR_PALETTE[project.general_color_index];
-        const total_todos = project.categories.map(category => category.todos.length).reduce((a, b) => a + b, 0);
-        const finished_todos = project.categories.map(category => category.todos.filter((todo, _) => todo.done).length).reduce((a, b) => a + b, 0);
-
-        const circular_progress = createProgressMiddlePanel(finished_todos * 100 / total_todos, project.icon_image, project.short_name, color, idx);
+        const circular_progress = createProgressMiddlePanel(
+            project.total_progress * 100,
+            project.icon_image,
+            project.short_name,
+            COLOR_PALETTE[project.general_color_index],
+            idx
+        );
         project_progresses.appendChild(circular_progress);
     });
 }
@@ -150,7 +152,7 @@ function configure_iot_devices(iot_devices) {
         btn.appendChild(hiddenDiv);
         
         const onColor = COLOR_PALETTE[device.color_index];
-        const unavailableColor = COLOR_PALETTE[6];
+        const unavailableColor = COLOR_PALETTE[23];
 
         if (device.state == 'on') {
             btn.style.backgroundColor = onColor;

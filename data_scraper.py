@@ -1,6 +1,7 @@
 import yaml, json, os
 
 CONFIG_PATH = "data/config.yaml"
+PROJECT_COLOR_INDEX_CYCLE = [17, 8, 12, 20, 10]
 
 config = None
 with open(CONFIG_PATH, "r") as file:
@@ -19,6 +20,7 @@ state_ai = "unavailable"
 state_computer = "unavailable"
 
 try:
+    print(0 / 0)
     from homeassistant_api import Client
 
     client = Client(config["homeassistant_url"], config["homeassistant_token"])
@@ -175,9 +177,10 @@ if progress_panel_widget is not None and len(progress_panel_widget["matrix_cell_
                     break
             
             if key_exists_at_index is None:
+                color_index = PROJECT_COLOR_INDEX_CYCLE[len(projects_tasks[-1]["categories"]) % len(PROJECT_COLOR_INDEX_CYCLE)]
                 projects_tasks[-1]["categories"].append({
                     "name": category.strip(),
-                    "color_index": 13,
+                    "color_index": color_index,
                     "todos": [{
                         "text": task_name.strip(),
                         "progress_cell_id": progress_cell["id"],

@@ -2,45 +2,45 @@
     "iot_devices": [
         {
             "name": "Top Lamp",
-            "state": "off",
+            "state": "unavailable",
             "entity_id": "input_boolean.main_light",
             "icon": "images/top_lamp.png",
             "color_index": 12
         },
         {
             "name": "Night Light",
-            "state": "off",
+            "state": "unavailable",
             "entity_id": "light.light_night",
             "icon": "images/night_light.png",
             "color_index": 12
         },
         {
             "name": "AI",
-            "state": "off",
+            "state": "unavailable",
             "entity_id": "",
             "icon": "images/voice_assistant.png",
             "color_index": 12
         },
         {
             "name": "Computer",
-            "state": "on",
+            "state": "unavailable",
             "entity_id": "light.computer",
             "icon": "images/computer.png",
             "color_index": 12
         }
     ],
-    "showing_project": 1,
+    "showing_project": 2,
     "projects": [
         {
             "full_name": "University",
             "short_name": "Uni",
             "icon_image": "images/university.png",
             "total_progress": 0.2,
-            "general_color_index": 17,
+            "general_color_index": 10,
             "categories": [
                 {
                     "name": "MCI",
-                    "color_index": 13,
+                    "color_index": 17,
                     "todos": [
                         {
                             "text": "Something",
@@ -57,11 +57,11 @@
             "short_name": "Chess",
             "icon_image": "images/chess_ai.png",
             "total_progress": 0.7,
-            "general_color_index": 0,
+            "general_color_index": 17,
             "categories": [
                 {
                     "name": "Game Logic",
-                    "color_index": 13,
+                    "color_index": 17,
                     "todos": [
                         {
                             "text": "En Pasant",
@@ -85,7 +85,7 @@
                 },
                 {
                     "name": "UI",
-                    "color_index": 13,
+                    "color_index": 8,
                     "todos": [
                         {
                             "text": "Queen Upgrade Visual",
@@ -97,7 +97,7 @@
                 },
                 {
                     "name": "Quality",
-                    "color_index": 13,
+                    "color_index": 12,
                     "todos": [
                         {
                             "text": "Unit Testing",
@@ -109,7 +109,7 @@
                 },
                 {
                     "name": "Performance",
-                    "color_index": 13,
+                    "color_index": 20,
                     "todos": [
                         {
                             "text": "Minimax Parallel Computing",
@@ -144,11 +144,11 @@
             "short_name": "Todo",
             "icon_image": "images/todo.png",
             "total_progress": 0.5,
-            "general_color_index": 12,
+            "general_color_index": 8,
             "categories": [
                 {
                     "name": "QOL",
-                    "color_index": 13,
+                    "color_index": 17,
                     "todos": [
                         {
                             "text": "Swap Columns",
@@ -202,7 +202,7 @@
                 },
                 {
                     "name": "Bug",
-                    "color_index": 13,
+                    "color_index": 8,
                     "todos": [
                         {
                             "text": "Cursor Disappearing",
@@ -238,7 +238,7 @@
                 },
                 {
                     "name": "Widget Type",
-                    "color_index": 13,
+                    "color_index": 12,
                     "todos": [
                         {
                             "text": "Table Template",
@@ -250,7 +250,7 @@
                 },
                 {
                     "name": "Cell Type",
-                    "color_index": 13,
+                    "color_index": 20,
                     "todos": [
                         {
                             "text": "Progress Cell",
@@ -267,11 +267,11 @@
             "short_name": "VA",
             "icon_image": "images/glucose.png",
             "total_progress": 0.4,
-            "general_color_index": 9,
+            "general_color_index": 27,
             "categories": [
                 {
                     "name": "Performance",
-                    "color_index": 13,
+                    "color_index": 17,
                     "todos": [
                         {
                             "text": "Parallel Computation",
@@ -283,7 +283,7 @@
                 },
                 {
                     "name": "Precision",
-                    "color_index": 14,
+                    "color_index": 8,
                     "todos": [
                         {
                             "text": "Confirmations",
@@ -313,7 +313,7 @@
                 },
                 {
                     "name": "Testing",
-                    "color_index": 15,
+                    "color_index": 12,
                     "todos": [
                         {
                             "text": "State Testing",
@@ -325,7 +325,7 @@
                 },
                 {
                     "name": "Feature",
-                    "color_index": 16,
+                    "color_index": 20,
                     "todos": [
                         {
                             "text": "Interaction Mode",
