@@ -35,6 +35,7 @@ body {
     width: 56.25%;
     margin-left: 2%;
     margin-right: 2%;
+    margin-top: 2%;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -95,11 +96,15 @@ body {
 }
 .circle-progress-list {
     display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
+    gap: 10px;
     justify-content: flex-start;
     margin-bottom: 20px;
     width: 100%;
+    box-sizing: border-box;
+}
+.circle-progress-list > * {
+    width: calc((100% - 2 * 3%) / 4);
+    aspect-ratio: 1 / 1;
     box-sizing: border-box;
 }
 .todo-list-container {
@@ -111,7 +116,7 @@ body {
     list-style: none;
     padding: 0;
     margin: 0;
-    max-height: 180px;
+    max-height: 60%;
     overflow-y: auto;
 }
 .todo-list li {

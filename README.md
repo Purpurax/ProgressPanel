@@ -27,8 +27,10 @@ Go through the config.yaml in the data folder and make sure the token works for 
 When the google calendar requires a new sign in, please use: \
 `python image_render.py --sign-in`
 
+```
+source .env/bin/activate
+python data_scraper.py
+python image_render.py
+```
+
 ## Next Features (developer only)
-- Scrape the data from the todo list
-    - Sync the todo with each device including the rapi
-    - Get IoT device information
-- Add the touch_calculator to determine what was clicked

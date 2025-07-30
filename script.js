@@ -39,12 +39,16 @@ function configure_active_project(active_project) {
 
     // Category progress bars
     const circleList = document.getElementById('circle-progress-list');
+    const total_todos = active_project.categories.map(category => category.todos.length).reduce((a, b) => a + b, 0);
     active_project.categories.forEach(category => {
         const color = COLOR_PALETTE[category.color_index];
-        const total_todos = category.todos.length;
-        const finished_todos = category.todos.filter((task, _) => task.done).length;
+        const total_todos_of_category = category.todos.length;
 
-        const circular_progress = createProgressLeftPanel(finished_todos * 100 / total_todos, category.name, color);
+        const circular_progress = createProgressLeftPanel(
+            total_todos_of_category * 100 / total_todos,
+            category.name,
+            color
+        );
         circleList.appendChild(circular_progress);
     });
 
@@ -92,7 +96,7 @@ function configure_active_project(active_project) {
 
             const hiddenDiv = document.createElement('div');
             hiddenDiv.style.display = 'none';
-            hiddenDiv.textContent = "TODO_CLICK=" + todo.json_location;
+            hiddenDiv.textContent = "TODO_CLICK=" + todo.progress_cell_id;
             hiddenDiv.setAttribute('tag', 'function');
             btn.appendChild(hiddenDiv);
 
@@ -182,6 +186,8 @@ function createProgressLeftPanel(percent, text, color = '#2ecc40') {
     const size = 65;
     wrapper.style.position = 'relative';
     wrapper.style.width = wrapper.style.height = size + 'px';
+    const fontSize = size / 4;
+    // Use a span with inline style and set max-width to fit the box, use CSS clamp for font-size
     const circleSvg = `
         <svg width="${size}" height="${size}">
             <circle cx="${size/2}" cy="${size/2}" r="${(size/2)-8}" stroke="#e0e0e0" stroke-width="8" fill="none"/>
@@ -190,7 +196,19 @@ function createProgressLeftPanel(percent, text, color = '#2ecc40') {
                 stroke-dashoffset="${2 * Math.PI * ((size/2)-8) * (1 - percent/100)}"
                 style="transition: stroke-dashoffset 0.5s;"/>
         </svg>
-        <span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:${size/4}px;font-weight:bold;color:#333;pointer-events:none;">${text}</span>
+        <span style="
+            position:absolute;
+            top:50%;
+            left:50%;
+            transform:translate(-50%,-50%);
+            font-size:clamp(10px, ${fontSize}px, ${fontSize}px);
+            font-weight:bold;
+            color:#333;
+            pointer-events:none;
+            max-width:${size - 16}px;
+            text-align:center;
+            display:inline-block;
+        ">${text}</span>
     `;
     // const iconImg = icon ? `<img src="${icon}" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:${size/2}px;height:${size/2}px;">` : '';
     wrapper.innerHTML = circleSvg;
