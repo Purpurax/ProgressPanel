@@ -8,3 +8,7 @@ set(COMPONENT_REQUIRES "esp_tinyusb")
 set(EXTRA_COMPONENT_DIRS $ENV{IDF_PATH}/examples/common_components/protocol_examples_common)
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
 project(Progress_Panel_Esp32)
+
+include_directories(
+    "${IDF_PATH}/components/**"
+)

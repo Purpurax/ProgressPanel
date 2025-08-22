@@ -66,3 +66,6 @@ backup-esp32/
 data/data.json
 **/*.timetracker
 .timetracker
+test.py
+
+env/

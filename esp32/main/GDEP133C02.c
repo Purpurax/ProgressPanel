@@ -89,12 +89,16 @@ void setPinCs(unsigned char csNumber, unsigned int setLevel){
 }
 void checkBusyHigh(void)// If BUSYN=0 then waiting
 {
-	while(!(getGpioLevel(EPD_BUSY)));
+	while(!(getGpioLevel(EPD_BUSY))) {
+		delayms(10);
+	}
 }
 
 void checkBusyLow(void)// If BUSYN=1 then waiting
 {
-	while(getGpioLevel(EPD_BUSY));
+	while(getGpioLevel(EPD_BUSY)) {
+		delayms(10);
+	}
 }
 //====================================================================
 
@@ -294,7 +298,7 @@ void epdDisplayColor(unsigned char colorSelect){
 #define FIRST_PACK_SIZE 480000 // First data packet size (bytes)
 #define TOTAL_IMAGE_SIZE 960000 // Total image data size (bytes)
 
-void pic_display_test(const unsigned char *num)
+void epdDisplayImage(const unsigned char *num)
 {
     unsigned int Width, Width1, Height;
     // Calculate width and height using the same method as the second code
@@ -393,8 +397,8 @@ void draw_checkerboard() {
         }
     }
 
-    // Call pic_display_test to display
-    pic_display_test(num);
+    // Call epdDisplayImage to display
+    epdDisplayImage(num);
 
     // Free the buffer
     free(num);
@@ -460,7 +464,6 @@ void epdDisplayColorBar(void)
 
 void writeEpdImage(unsigned char csx, unsigned char const *imageData, unsigned long imageDataLength)
 {
-
 	setPinCs(csx,GPIO_LOW);
 	spiTransmitLargeData(DTM, imageData, imageDataLength);
 	setPinCs(csx,GPIO_HIGH);

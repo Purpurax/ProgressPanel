@@ -20,7 +20,8 @@
 #include "comm.h"
 #include "pindefine.h"
 #include "status.h"
-#include "image.h"
+#include "image_network_error.h"
+#include "networking.h"
 
 
 void app_main(void) {
@@ -32,15 +33,33 @@ void app_main(void) {
     setPinCsAll(GPIO_HIGH);
     
     initEPD();
+    // epdDisplayImage(network_error_image);
     epdDisplayColorBar();
     delayms(1000);
     // ============================================================
 
     // ==================== Wifi Setup ============================
+    initialize_networking();
 
+    bool connected = connect_to_network();
+    if (!connected) {
+        initEPD();
+	    epdDisplayColor(RED);
+        delayms(1000);
+        delayms(2000);
+    }
+
+    while (!connected) {
+        connected = connect_to_network();
+        delayms(10000);
+    }
     // ============================================================
 
+    initEPD();
+    epdDisplayColor(GREEN);
+    delayms(1000);
+
     while (1) {
-        
+        delayms(1000);
     }
 }

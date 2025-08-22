@@ -17,13 +17,6 @@ ch340 drivers (Might be preinstalled)
 
 ## System explained
 The esp32 from the e ink panel will only listen for an update request and make the image update while recieving the full image over network.
-The esp32 will at first always connect to a network with the name `giveMeAccess` and a password `This1sSe4ure` right after starting. It will search for a connection until it finds the network (meanwhile a debug image will be displayed).
-After connecting to this network successfully, it will make a request to ...
-The answer that it gets back, will be a network which is expected to last until a restart.
-Now the esp32 will start listen for requests.
-
-The rapi will try to locate the esp32 in the local network, and if it cannot find it, it will open the temporary network with name `giveMeAccess` and a password `This1sSe4ure`. Until a connection to the esp32 has been established, this temporary network is open.
-With a connection it will go into update mode and on-demand send images that shall be displayed.
 
 ## Installation
 For the esp32-burning (make sure the submodules are initialized and python is installed):
@@ -36,6 +29,7 @@ cd ../
 cd esp32
 idf.py build
 idf.py menuconfig # Go to Component config -> TinyUSB stack -> CDC -> enable this feature
+idf.py menuconfig # Go to App Configuration and set SSID and Password
 idf.py build
 ```
 

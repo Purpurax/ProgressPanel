@@ -1,5 +1,13 @@
-menu "SPIFFS Example menu"
+menu "App Configuration"
 
+    config WIFI_SSID
+        string "WiFi SSID"
+        default "your_ssid"
+
+    config WIFI_PASSWORD
+        string "WiFi Password"
+        default "your_password"
+    
     config EXAMPLE_SPIFFS_CHECK_ON_START
         bool "Run SPIFFS_check on every start-up"
         default y
