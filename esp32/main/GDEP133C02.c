@@ -298,7 +298,7 @@ void epdDisplayColor(unsigned char colorSelect){
 #define FIRST_PACK_SIZE 480000 // First data packet size (bytes)
 #define TOTAL_IMAGE_SIZE 960000 // Total image data size (bytes)
 
-void epdDisplayImage(const unsigned char *num)
+void epdDisplayImage(unsigned char *num)
 {
     unsigned int Width, Width1, Height;
     // Calculate width and height using the same method as the second code
