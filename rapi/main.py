@@ -1,0 +1,24 @@
+from src.data_scraper import scrap_data
+from src.image_render import render_web_page
+from src.image_processor import dither_image
+from src.networker import send_to_esp32
+import yaml
+
+CONFIG_PATH = "data/config.yaml"
+
+def load_configs():
+    config = None
+    with open(CONFIG_PATH, "r") as file:
+        config = yaml.safe_load(file)
+
+    if config is None:
+        print("The config path does not lead to any config.yaml file")
+        exit(0)
+    return config
+
+config = load_configs()
+
+scrap_data(config)
+image, button_map = render_web_page(config)
+payload = dither_image(config, image)
+send_to_esp32(config, payload)
