@@ -1,8 +1,31 @@
 const COLOR_PALETTE = [
-    '#be4a2f', '#d77643', '#ead4aa', '#e4a672', '#b86f50', '#733e39', '#3e2731', '#a22633',
-    '#e43b44', '#f77622', '#feae34', '#fee761', '#63c74d', '#3e8948', '#265c42', '#193c3e',
-    '#124e89', '#0099db', '#2ce8f5', '#ffffff', '#c0cbdc', '#8b9bb4', '#5a6988', '#3a4466',
-    '#262b44', '#181425', '#ff0044', '#68386c', '#b55088', '#f6757a', '#e8b796', '#c28569'
+    // Base colors (6)
+    '#000000', // Black
+    '#ffffff', // White  
+    '#e6e600', // Yellow
+    '#cc0000', // Red
+    '#0033cc', // Blue
+    '#00cc00', // Green
+    
+    // 1/2 mixes with white (lighter variants) (6)
+    '#737300', // Yellow + Black (1/2)
+    '#660000', // Red + Black (1/2)
+    '#001966', // Blue + Black (1/2)
+    '#006600', // Green + Black (1/2)
+    '#f3f300', // Yellow + White (1/2)
+    '#e60066', // Red + White (1/2)
+    
+    // 1/4 mixes creating darker tones (4)
+    '#808080', // Black + White (1/2)
+    '#f9f980', // Yellow + White (1/4 yellow)
+    '#ff8080', // Red + White (1/4 red)
+    '#8099ff', // Blue + White (1/4 blue)
+    
+    // Creative color combinations (4)
+    '#666600', // Yellow + Green (1/2 each)
+    '#800080', // Red + Blue (1/2 each)
+    '#339900', // Green + Blue (1/4 blue, 3/4 green)
+    '#cc6600'  // Red + Yellow (1/2 each)
 ];
 
 fetch('data/data.json')
@@ -152,7 +175,7 @@ function configure_iot_devices(iot_devices) {
         btn.appendChild(hiddenDiv);
         
         const onColor = COLOR_PALETTE[device.color_index];
-        const unavailableColor = COLOR_PALETTE[23];
+        const unavailableColor = COLOR_PALETTE[12];
 
         if (device.state == 'on') {
             btn.style.backgroundColor = onColor;

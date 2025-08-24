@@ -1,6 +1,6 @@
 import yaml, json, os
 
-PROJECT_COLOR_INDEX_CYCLE = [17, 8, 12, 20, 10]
+PROJECT_COLOR_INDEX_CYCLE = [2, 3, 4, 5]
 
 def _get_iot_device_data(homeassistant_url: str, homeassistant_token: str) -> dict:
     state_top_lamp = "unavailable"
@@ -39,26 +39,26 @@ def _get_iot_device_data(homeassistant_url: str, homeassistant_token: str) -> di
             "state": state_top_lamp,
             "entity_id": "input_boolean.main_light",
             "icon": "images/top_lamp.png",
-            "color_index": 12
+            "color_index": 2
         },
         {
             "name": "Night Light",
             "state": state_night_light,
             "entity_id": "light.light_night",
             "icon": "images/night_light.png",
-            "color_index": 12},
+            "color_index": 2},
         {
             "name": "AI",
             "state": state_ai,
             "entity_id": "",
             "icon": "images/voice_assistant.png",
-            "color_index": 12},
+            "color_index": 4},
         {
             "name": "Computer",
             "state": state_computer,
             "entity_id": "light.computer",
             "icon": "images/computer.png",
-            "color_index": 12}
+            "color_index": 5}
     ]
 
 def _get_project_data(todo_data_path: str) -> dict:

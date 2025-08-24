@@ -20,8 +20,11 @@ config = load_configs()
 
 print("--- Scraping data ---")
 scrap_data(config)
+
 print("--- Rendering Webpage ---")
 image_path, button_map = render_web_page(config)
+# image_path = config["image_output_path"]
+
 print("--- Dithering Image ---")
 payload = dither_image(config, image_path)
 

@@ -18,7 +18,7 @@ body {
     padding-top: 1%;
     height: 7%;
     padding-bottom: 2%;
-    background-color: rgb(240, 240, 240);
+    background-color: #ffffff;
     /* border-radius: 0 0 30px 30px; */
 }
 .left-panel {
@@ -29,7 +29,7 @@ body {
     justify-content: space-between;
     padding: 1% 1%;
     box-sizing: border-box;
-    background: #f8f8f8;
+    background: #eeeeee;
     position: relative;
 }
 .middle-panel {
@@ -64,7 +64,7 @@ body {
 .main-content {
     display: flex;
     flex-direction: row;
-    background-color: #fff;
+    background-color: #cccccc;
     height: 81%;
     width: 90.2%;
     padding: 0;
