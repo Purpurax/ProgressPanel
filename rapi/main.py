@@ -21,4 +21,5 @@ config = load_configs()
 scrap_data(config)
 image, button_map = render_web_page(config)
 payload = dither_image(config, image)
+
 send_to_esp32(config, payload)

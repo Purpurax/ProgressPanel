@@ -6,7 +6,6 @@
 #include <sys/stat.h>
 #include <assert.h>
 
-#include "esp_partition.h"
 #include "esp_err.h"
 #include "esp_log.h"
 #include "esp_spiffs.h"
@@ -14,47 +13,23 @@
 #include "freertos/task.h"
 #include "esp_system.h"
 
-// #include "usbcdc.h"
 #include "esp_vfs_fat.h"
 #include "GDEP133C02.h"
 #include "comm.h"
 #include "pindefine.h"
 #include "status.h"
-#include "image_network_error.h"
 #include "networking.h"
 #include "touchscreen.h"
+#include "image_buffer.h"
 
 volatile bool touch_detected = false;
-const esp_partition_t* image_partition;
-unsigned char* image_buffer;
 
 void touch_callback(uint16_t x, uint16_t y) {
-    ESP_LOGI("TOUCH", "Touch detected at x=%d, y=%d", x, y);
+    ESP_LOGI("MAIN", "Touch detected at x=%d, y=%d", x, y);
     touch_detected = true;
     // initEPD();
     // epdDisplayColor(BLACK);
     // delayms(1000);
-}
-
-static void load_image_from_flash(void) {
-    if (image_partition && image_buffer) {
-        esp_partition_read(image_partition, 0, image_buffer, 960000);
-    }
-}
-
-static void save_image_to_flash(void) {
-    if (image_partition && image_buffer) {
-        esp_partition_erase_range(image_partition, 0, 960000);
-        esp_partition_write(image_partition, 0, image_buffer, 960000);
-    }
-}
-
-static void init_image_partition(void) {
-    image_partition = esp_partition_find_first(ESP_PARTITION_TYPE_DATA, ESP_PARTITION_SUBTYPE_ANY, "image_data");
-    image_buffer = (unsigned char*)malloc(960000);
-    if (image_buffer) {
-        memset(image_buffer, 0x11, 960000);
-    }
 }
 
 void app_main(void) {
@@ -65,11 +40,11 @@ void app_main(void) {
     epdHardwareReset();
     setPinCsAll(GPIO_HIGH);
 
-    initEPD();
-    epdDisplayColor(WHITE);
-    delayms(1000);
+    // initEPD();
+    // epdDisplayColor(WHITE);
+    // delayms(1000);
 
-    init_image_partition();
+    init_image_partition_with_network_error_image();
 
     // ======================== Wifi Setup ========================
     initialize_networking();
@@ -77,7 +52,7 @@ void app_main(void) {
     bool connected = connect_to_network();
     if (!connected) {
         initEPD();
-        epdDisplayImage(network_error_image);
+        epdDisplayImage();
         delayms(1000);
     }
     while (!connected) {
@@ -86,7 +61,7 @@ void app_main(void) {
     }
 
     // ===================== Wifi Server Setup ====================
-    bool server_started = start_image_server(image_buffer);
+    bool server_started = start_image_server();
     if (!server_started) {
         return;
     }
@@ -102,11 +77,12 @@ void app_main(void) {
     // ================== Change Image on Demand ==================
     bool color_is_black = false;
     while (1) {
-        if (image_updated) {
-            image_updated = false;
+        if (get_volatile_image_updated()) {
+            ESP_LOGI("MAIN", "Updating the image using the image_data partition");
+            set_volatile_image_updated(false);
 
             initEPD();
-            epdDisplayImage(image_buffer);
+            epdDisplayImage();
             delayms(1000);
         }
 

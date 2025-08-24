@@ -6,6 +6,8 @@ import sys
 import os
 import time
 import json
+from io import BytesIO
+from PIL import Image
 
 def _start_server(port):
     handler = http.server.SimpleHTTPRequestHandler
@@ -38,9 +40,12 @@ def _capture_screenshot(page, output_path: str) -> bytes:
     time.sleep(5)
     page.screenshot(path=output_path, full_page=True)
 
-    with open(output_path, "rb") as f:
-        return f.read()
-    exit(0)
+    # Rotate by 90 degrees
+    img = Image.open(output_path)
+    img = img.rotate(90)
+    output = BytesIO()
+    img.save(output, format="PNG")
+    return output.getvalue()
     
 def _capture_button_mapping(page) -> bytes:
     return page.evaluate("""
@@ -78,8 +83,13 @@ def render_web_page(config: dict) -> tuple[bytes, bytes]:
     touch_map_path = config["touch_map_path"]
     viewport = {"width": config["viewport_width"], "height": config["viewport_height"]}
 
-
-    httpd, _thread = _start_server(port)
+    server_started = False
+    while not server_started:
+        try:
+            httpd, _thread = _start_server(port)
+            server_started = True
+        except:
+            port += 1
 
     with sync_playwright() as p:
         if "--sign-in" in sys.argv or not os.path.exists(web_state_path):

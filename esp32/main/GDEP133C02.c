@@ -298,7 +298,7 @@ void epdDisplayColor(unsigned char colorSelect){
 #define FIRST_PACK_SIZE 480000 // First data packet size (bytes)
 #define TOTAL_IMAGE_SIZE 960000 // Total image data size (bytes)
 
-void epdDisplayImage(unsigned char *num)
+void epdDisplayImage()
 {
     unsigned int Width, Width1, Height;
     // Calculate width and height using the same method as the second code
@@ -310,9 +310,24 @@ void epdDisplayImage(unsigned char *num)
     setPinCsAll(GPIO_HIGH);        // Deselect all
     setPinCs(0, 0);                // Select the first section (main display)
     writeEpdCommand(DTM);          // Send data transfer mode command
-    for (unsigned int i = 0; i < Height; i++)
+    
+	unsigned char* pixel_buffer = (unsigned char*)malloc(Width);
+	esp_err_t ret;
+	const esp_partition_t* image_partition = get_image_partition();
+	if (!image_partition) {
+		ESP_LOGE("GDEP133C02", "Couldn't find the image partition");
+		return;
+	}
+
+	for (unsigned int i = 0; i < Height; i++)
     {
-        writeEpdData(num + i * Width, Width1); // Send the first half of each row's data
+		ret = esp_partition_read(image_partition, i * Width, pixel_buffer, Width1);
+		if (ret != ESP_OK) {
+			ESP_LOGI("GDEP133C02", "Failed to read partition chunk, using defaults");
+			memset(pixel_buffer, 0, Width1);
+		}
+
+        writeEpdData(pixel_buffer, Width1); // Send the first half of each row's data
         vTaskDelay(pdMS_TO_TICKS(1));          // Delay 1ms to avoid hardware overload
     }
     setPinCsAll(GPIO_HIGH);        // Deselect
@@ -322,7 +337,13 @@ void epdDisplayImage(unsigned char *num)
     writeEpdCommand(DTM);          // Send data transfer mode command
     for (unsigned int i = 0; i < Height; i++)
     {
-        writeEpdData(num + i * Width + Width1, Width1); // Send the second half of each row's data
+		ret = esp_partition_read(image_partition, i * Width + Width1, pixel_buffer, Width1);
+		if (ret != ESP_OK) {
+			ESP_LOGI("GDEP133C02", "Failed to read partition chunk, using defaults");
+			memset(pixel_buffer, 0, Width1);
+		}
+
+        writeEpdData(pixel_buffer, Width1); // Send the second half of each row's data
         vTaskDelay(pdMS_TO_TICKS(1));                   // Delay 1ms
     }
     setPinCsAll(GPIO_HIGH);        // Deselect

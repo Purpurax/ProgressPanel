@@ -8,5 +8,5 @@ web_state_path: "data/auth.json"
 touch_map_path: "data/touch_to_button.json"
 viewport_width: 1600
 viewport_height: 1200
-esp32_ip: "192.168.0.200"
+esp32_ip: "192.168.0.206"
 esp32_port: "5000"

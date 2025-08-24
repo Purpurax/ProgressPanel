@@ -40,6 +40,11 @@
 // Image buffer for sending image
 #define EPD_IMAGE_DATA_BUFFER 8192 // MCU RAM Size (800*720/2) reserve for one driver IC
 
+#include "image_buffer.h"
+#include "esp_err.h"
+#include "esp_log.h"
+#include "esp_partition.h"
+
 #endif //#ifndef __GDEP133C02_H__
 
 #ifdef __GDEP133C02_C__
@@ -90,5 +95,5 @@ __GDEP133C02_EXTERN__ char partialWindowUpdateWithImageData(unsigned char csx, u
 __GDEP133C02_EXTERN__ char partialWindowUpdateWithoutImageData(unsigned char csx, unsigned int xStart, unsigned int yStart, unsigned int xPixel, unsigned int yLine, unsigned char epdDisplayEnable);
 
 
-__GDEP133C02_EXTERN__ void epdDisplayImage(unsigned char *num);
+__GDEP133C02_EXTERN__ void epdDisplayImage();
 __GDEP133C02_EXTERN__ void draw_checkerboard();

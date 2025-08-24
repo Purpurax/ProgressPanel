@@ -13,6 +13,7 @@ PALETTE = {
 
 def _turn_image_into_pixels(image: bytes) -> np.array:
     img = Image.open(BytesIO(image))
+    img = img.resize((1200, 1600))
     img = img.convert('RGB')
 
     return np.array(img)
@@ -34,6 +35,15 @@ def _threshold_dither(pixels: np.array) -> np.array:
 
 def _turn_pixel_array_to_payload(pixel_ary: np.array) -> bytes:
     payload = pixel_ary.astype(np.uint8).tobytes()
+
+    packed_bytes = bytearray()
+
+    for i in range(0, len(payload), 2):
+        first = payload[i] & 0x0F
+        second = payload[i+1] & 0x0F
+        packed_bytes.append((first << 4) | second)
+
+    payload = bytes(packed_bytes)
 
     if len(payload) < 960000:
         payload += b'\x00' * (960000 - len(payload))
