@@ -28,6 +28,8 @@ def _get_iot_device_data(homeassistant_url: str, homeassistant_token: str) -> di
         else:
             ai_listener = client.get_entity(entity_id="switch.ai_listener")
             state_ai = ai_listener.get_state().state
+        
+        print("Successfully found IoT devices")
     except Exception as e:
         print(f"Couldn't set up the IoT devices because {e}")
 
@@ -70,6 +72,7 @@ def _get_project_data(todo_data_path: str) -> dict:
             print("Cannot load in the todo data")
             exit()
         
+        print("Loaded in todo data.json")
         return todo_data
 
     ## Find progress panel widget
@@ -108,16 +111,16 @@ def _get_project_data(todo_data_path: str) -> dict:
             short_name = __get_cell_by_id(todo_data, cell_ids[2])["content"]
             total_progress = float(int(__get_cell_by_id(todo_data, cell_ids[3])["content"])) / 100.0
             color_index = int(__get_cell_by_id(todo_data, cell_ids[4])["content"])
-            icon_path = os.path.expanduser(__get_cell_by_id(todo_data, cell_ids[5])["content"])
+            icon_path = __get_cell_by_id(todo_data, cell_ids[5])["content"]
 
-            if tasks_widget_id is None or not os.path.isfile(icon_path) \
-            or not icon_path.startswith("/home/master/Project/Javascript/ProgressPanel/images/"):
+            if tasks_widget_id is None or not os.path.isfile(icon_path):
+                print(str(icon_path) + " is not a valid icon path")
                 continue
 
             projects_tasks.append({
                 "full_name": full_name.strip(),
                 "short_name": short_name.strip(),
-                "icon_image": str(icon_path.split("/home/master/Project/Javascript/ProgressPanel/")[1]).strip(),
+                "icon_image": icon_path.strip(),
                 "total_progress": total_progress,
                 "general_color_index": color_index,
                 "categories": []

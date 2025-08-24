@@ -2,33 +2,358 @@
     "iot_devices": [
         {
             "name": "Top Lamp",
-            "state": "unavailable",
+            "state": "off",
             "entity_id": "input_boolean.main_light",
             "icon": "images/top_lamp.png",
             "color_index": 12
         },
         {
             "name": "Night Light",
-            "state": "unavailable",
+            "state": "off",
             "entity_id": "light.light_night",
             "icon": "images/night_light.png",
             "color_index": 12
         },
         {
             "name": "AI",
-            "state": "unavailable",
+            "state": "on",
             "entity_id": "",
             "icon": "images/voice_assistant.png",
             "color_index": 12
         },
         {
             "name": "Computer",
-            "state": "unavailable",
+            "state": "on",
             "entity_id": "light.computer",
             "icon": "images/computer.png",
             "color_index": 12
         }
     ],
     "showing_project": 0,
-    "projects": []
+    "projects": [
+        {
+            "full_name": "University",
+            "short_name": "Uni",
+            "icon_image": "images/university.png",
+            "total_progress": 0.2,
+            "general_color_index": 10,
+            "categories": [
+                {
+                    "name": "MCI",
+                    "color_index": 17,
+                    "todos": [
+                        {
+                            "text": "Something",
+                            "progress_cell_id": 5065,
+                            "deadline": 0,
+                            "done": false
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "full_name": "Chess AI",
+            "short_name": "Chess",
+            "icon_image": "images/chess_ai.png",
+            "total_progress": 0.7,
+            "general_color_index": 17,
+            "categories": [
+                {
+                    "name": "Game Logic",
+                    "color_index": 17,
+                    "todos": [
+                        {
+                            "text": "En Pasant",
+                            "progress_cell_id": 8668,
+                            "deadline": 0,
+                            "done": false
+                        },
+                        {
+                            "text": "Queen Upgrade",
+                            "progress_cell_id": 8785,
+                            "deadline": 0,
+                            "done": false
+                        },
+                        {
+                            "text": "Neural Network Overhaul",
+                            "progress_cell_id": 4130,
+                            "deadline": 0,
+                            "done": false
+                        }
+                    ]
+                },
+                {
+                    "name": "UI",
+                    "color_index": 8,
+                    "todos": [
+                        {
+                            "text": "Queen Upgrade Visual",
+                            "progress_cell_id": 8790,
+                            "deadline": 0,
+                            "done": false
+                        }
+                    ]
+                },
+                {
+                    "name": "Quality",
+                    "color_index": 12,
+                    "todos": [
+                        {
+                            "text": "Unit Testing",
+                            "progress_cell_id": 8795,
+                            "deadline": 0,
+                            "done": false
+                        }
+                    ]
+                },
+                {
+                    "name": "Performance",
+                    "color_index": 20,
+                    "todos": [
+                        {
+                            "text": "Minimax Parallel Computing",
+                            "progress_cell_id": 8835,
+                            "deadline": 0,
+                            "done": false
+                        },
+                        {
+                            "text": "Minimax Caching",
+                            "progress_cell_id": 8875,
+                            "deadline": 0,
+                            "done": false
+                        },
+                        {
+                            "text": "Minimax Alpha Beta Interval",
+                            "progress_cell_id": 8880,
+                            "deadline": 0,
+                            "done": false
+                        },
+                        {
+                            "text": "Monte Carlo Simulation Policy",
+                            "progress_cell_id": 8885,
+                            "deadline": 0,
+                            "done": false
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "full_name": "Todo App",
+            "short_name": "Todo",
+            "icon_image": "images/todo.png",
+            "total_progress": 0.5,
+            "general_color_index": 8,
+            "categories": [
+                {
+                    "name": "QOL",
+                    "color_index": 17,
+                    "todos": [
+                        {
+                            "text": "Swap Columns",
+                            "progress_cell_id": 10196,
+                            "deadline": 0,
+                            "done": false
+                        },
+                        {
+                            "text": "Clear Editing State",
+                            "progress_cell_id": 10206,
+                            "deadline": 0,
+                            "done": false
+                        },
+                        {
+                            "text": "Full Width Text",
+                            "progress_cell_id": 10216,
+                            "deadline": 0,
+                            "done": false
+                        },
+                        {
+                            "text": "Cursor Navigation",
+                            "progress_cell_id": 10221,
+                            "deadline": 0,
+                            "done": false
+                        },
+                        {
+                            "text": "Quick Styler",
+                            "progress_cell_id": 10231,
+                            "deadline": 0,
+                            "done": false
+                        },
+                        {
+                            "text": "Undo Redo",
+                            "progress_cell_id": 10241,
+                            "deadline": 0,
+                            "done": false
+                        },
+                        {
+                            "text": "Prettier Confirm\nDisplay",
+                            "progress_cell_id": 10246,
+                            "deadline": 0,
+                            "done": false
+                        },
+                        {
+                            "text": "Caro Appearance",
+                            "progress_cell_id": 11615,
+                            "deadline": 0,
+                            "done": false
+                        }
+                    ]
+                },
+                {
+                    "name": "Bug",
+                    "color_index": 8,
+                    "todos": [
+                        {
+                            "text": "Cursor Disappearing",
+                            "progress_cell_id": 10201,
+                            "deadline": 0,
+                            "done": false
+                        },
+                        {
+                            "text": "Number Cell is not\nEditable",
+                            "progress_cell_id": 10256,
+                            "deadline": 0,
+                            "done": false
+                        },
+                        {
+                            "text": "Reduce the Amount\nof Update Instructions",
+                            "progress_cell_id": 10251,
+                            "deadline": 0,
+                            "done": false
+                        },
+                        {
+                            "text": "Ordering cannot\nbe setup",
+                            "progress_cell_id": 12372,
+                            "deadline": 0,
+                            "done": false
+                        },
+                        {
+                            "text": "Cannot Add Cells",
+                            "progress_cell_id": 10236,
+                            "deadline": 0,
+                            "done": false
+                        }
+                    ]
+                },
+                {
+                    "name": "Widget Type",
+                    "color_index": 12,
+                    "todos": [
+                        {
+                            "text": "Table Template",
+                            "progress_cell_id": 10211,
+                            "deadline": 0,
+                            "done": false
+                        }
+                    ]
+                },
+                {
+                    "name": "Cell Type",
+                    "color_index": 20,
+                    "todos": [
+                        {
+                            "text": "Progress Cell",
+                            "progress_cell_id": 10226,
+                            "deadline": 0,
+                            "done": false
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "full_name": "Glucose",
+            "short_name": "VA",
+            "icon_image": "images/glucose.png",
+            "total_progress": 0.4,
+            "general_color_index": 27,
+            "categories": [
+                {
+                    "name": "Performance",
+                    "color_index": 17,
+                    "todos": [
+                        {
+                            "text": "Parallel Computation",
+                            "progress_cell_id": 11269,
+                            "deadline": 0,
+                            "done": false
+                        }
+                    ]
+                },
+                {
+                    "name": "Precision",
+                    "color_index": 8,
+                    "todos": [
+                        {
+                            "text": "Confirmations",
+                            "progress_cell_id": 11274,
+                            "deadline": 0,
+                            "done": false
+                        },
+                        {
+                            "text": "Unclear Command",
+                            "progress_cell_id": 11279,
+                            "deadline": 0,
+                            "done": false
+                        },
+                        {
+                            "text": "Better Word Matching",
+                            "progress_cell_id": 11289,
+                            "deadline": 0,
+                            "done": false
+                        },
+                        {
+                            "text": "Possibly Overhaul\nthe Matching",
+                            "progress_cell_id": 12094,
+                            "deadline": 0,
+                            "done": false
+                        }
+                    ]
+                },
+                {
+                    "name": "Testing",
+                    "color_index": 12,
+                    "todos": [
+                        {
+                            "text": "State Testing",
+                            "progress_cell_id": 11284,
+                            "deadline": 0,
+                            "done": false
+                        }
+                    ]
+                },
+                {
+                    "name": "Feature",
+                    "color_index": 20,
+                    "todos": [
+                        {
+                            "text": "Interaction Mode",
+                            "progress_cell_id": 11294,
+                            "deadline": 0,
+                            "done": false
+                        },
+                        {
+                            "text": "Extend Commandss",
+                            "progress_cell_id": 11299,
+                            "deadline": 0,
+                            "done": false
+                        },
+                        {
+                            "text": "Memory Feature",
+                            "progress_cell_id": 11304,
+                            "deadline": 0,
+                            "done": false
+                        },
+                        {
+                            "text": "Status Command",
+                            "progress_cell_id": 10836,
+                            "deadline": 0,
+                            "done": false
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
 }

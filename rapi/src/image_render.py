@@ -36,19 +36,17 @@ def _load_page_headless(p, port, viewport, web_state_path):
 
     return browser, page
 
-def _capture_screenshot(page, output_path: str) -> bytes:
+def _capture_screenshot(page, output_path: str):
     time.sleep(5)
     page.screenshot(path=output_path, full_page=True)
 
-    # Rotate by 90 degrees
     img = Image.open(output_path)
-    img = img.rotate(90)
-    output = BytesIO()
-    img.save(output, format="PNG")
-    return output.getvalue()
+    img = img.transpose(Image.TRANSPOSE)
+    img = img.transpose(Image.FLIP_TOP_BOTTOM)
+    img.save(output_path, format="PNG")
     
-def _capture_button_mapping(page) -> bytes:
-    return page.evaluate("""
+def _capture_button_mapping(page, touch_map_path: str):
+    button_map_data = page.evaluate("""
         () => {
             const results = [];
             const buttons = Array.from(document.querySelectorAll('button'));
@@ -71,6 +69,9 @@ def _capture_button_mapping(page) -> bytes:
             return results;
         }
     """)
+
+    with open(touch_map_path, "w", encoding="utf-8") as f:
+        json.dump(button_map_data, f, ensure_ascii=False, indent=2)
 
 def _stop_server(httpd):
     httpd.shutdown()
@@ -96,13 +97,10 @@ def render_web_page(config: dict) -> tuple[bytes, bytes]:
             _login_and_save_state(p, web_state_path)
         
         browser, page = _load_page_headless(p, port, viewport, web_state_path)
-        button_map_data = _capture_button_mapping(page)
-        rendered_image = _capture_screenshot(page, image_output_path)
+        _capture_button_mapping(page, touch_map_path)
+        _capture_screenshot(page, image_output_path)
         browser.close()
 
     _stop_server(httpd)
 
-    with open(touch_map_path, "w", encoding="utf-8") as f:
-        json.dump(button_map_data, f, ensure_ascii=False, indent=2)
-
-    return (rendered_image, button_map_data)
+    return (image_output_path, touch_map_path)

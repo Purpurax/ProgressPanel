@@ -18,8 +18,12 @@ def load_configs():
 
 config = load_configs()
 
+print("--- Scraping data ---")
 scrap_data(config)
-image, button_map = render_web_page(config)
-payload = dither_image(config, image)
+print("--- Rendering Webpage ---")
+image_path, button_map = render_web_page(config)
+print("--- Dithering Image ---")
+payload = dither_image(config, image_path)
 
+print("--- Sending to ESP32 ---")
 send_to_esp32(config, payload)

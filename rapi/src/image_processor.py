@@ -1,4 +1,5 @@
 from PIL import Image
+from PIL import ImageOps
 import numpy as np
 from io import BytesIO
 
@@ -11,30 +12,40 @@ PALETTE = {
     0x00cc00: 5  # Green
 }
 
-def _turn_image_into_pixels(image: bytes) -> np.array:
-    img = Image.open(BytesIO(image))
-    img = img.resize((1200, 1600))
-    img = img.convert('RGB')
+def _turn_image_into_pixels(image_path: str) -> np.array:
+    img = Image.open(image_path)
+    pixels_three_byte = np.asarray(img)
 
-    return np.array(img)
+    height, width, _ = pixels_three_byte.shape
+    pixels = np.zeros((height, width), dtype=np.uint32)
+    for y in range(height):
+        for x in range(width):
+            red = int(pixels_three_byte[y, x, 0])
+            green = int(pixels_three_byte[y, x, 1])
+            blue = int(pixels_three_byte[y, x, 2])
+
+            color = 0xFFFFFF
+            color = (red << 16) | (green << 8) | blue
+
+            pixels[y, x] = int(color)
+
+    return pixels
 
 def _threshold_dither(pixels: np.array) -> np.array:
-    height, width, _ = pixels.shape
-    palette_colors = np.array([(k >> 16 & 0xFF, k >> 8 & 0xFF, k & 0xFF) for k in PALETTE.keys()])
-
+    height, width = pixels.shape
+    palette_keys = np.array(list(PALETTE.keys()))
     for y in range(height):
         for x in range(width):
             pixel = pixels[y, x]
-            
-            distances = np.linalg.norm(palette_colors - pixel, axis=1)
+            distances = np.abs(palette_keys - pixel)
             best_idx = np.argmin(distances)
-            
-            pixels[y, x] = palette_colors[best_idx]
-
+            pixels[y, x] = PALETTE[palette_keys[best_idx]]
     return pixels
 
 def _turn_pixel_array_to_payload(pixel_ary: np.array) -> bytes:
     payload = pixel_ary.astype(np.uint8).tobytes()
+
+    print("Payload size before compressing: " + str(len(payload)))
 
     packed_bytes = bytearray()
 
@@ -45,15 +56,24 @@ def _turn_pixel_array_to_payload(pixel_ary: np.array) -> bytes:
 
     payload = bytes(packed_bytes)
 
+    print("Payload size after compressing: " + str(len(payload)))
+
     if len(payload) < 960000:
-        payload += b'\x00' * (960000 - len(payload))
+        print("Pixels are not enough (" + str(len(payload)) + ") and cannot be used as payload")
+        exit(0)
     elif len(payload) > 960000:
-        payload = payload[:960000]
+        print("Pixels are more (" + str(len(payload)) + ") and cannot be used as payload")
+        exit(0)
 
     return payload
 
-def dither_image(config: dict, image: bytes) -> bytes:
-    pixel_ary = _turn_image_into_pixels(image)
+def dither_image(config: dict, image_path: str) -> bytes:
+    pixel_ary = _turn_image_into_pixels(image_path)
     dithered_pixel_ary = _threshold_dither(pixel_ary)
 
-    return _turn_pixel_array_to_payload(dithered_pixel_ary)
+    res = _turn_pixel_array_to_payload(dithered_pixel_ary)
+    
+    # print("First 1000 pixels (hex):", [hex(x) for x in dithered_pixel_ary.flatten()[:1000]])
+    # print("Last 1000 pixels (hex):", [hex(x) for x in dithered_pixel_ary.flatten()[-1000:]])
+
+    return res
