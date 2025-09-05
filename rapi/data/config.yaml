@@ -2,6 +2,7 @@ data_path: "data/data.json"
 homeassistant_url: 'http://192.168.0.6:8123/api'
 homeassistant_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI1NmFkNjc0NjhhYTQ0YWY1YmUyYmRhMWJiNzNjMjE1YSIsImlhdCI6MTcxNjc0OTU1OCwiZXhwIjoyMDMyMTA5NTU4fQ.5DobsT9g2Avqnsme85DyGfk_R4mmRMJ4V7Ua2ohT93s'
 todo_data_path: "~/.local/share/todo/data.json"
+todo_data_path_uploaded: "~/.local/share/todo/data_uploaded.json"
 port: 8000
 image_output_path: "data/website_screenshot.png"
 web_state_path: "data/auth.json"

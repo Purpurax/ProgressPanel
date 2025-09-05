@@ -1,4 +1,4 @@
-import yaml, json, os
+import json, os
 
 PROJECT_COLOR_INDEX_CYCLE = [2, 3, 4, 5]
 
@@ -29,9 +29,10 @@ def _get_iot_device_data(homeassistant_url: str, homeassistant_token: str) -> di
             ai_listener = client.get_entity(entity_id="switch.ai_listener")
             state_ai = ai_listener.get_state().state
         
-        print("Successfully found IoT devices")
+        # print("Successfully found IoT devices")
     except Exception as e:
-        print(f"Couldn't set up the IoT devices because {e}")
+        # print(f"Couldn't set up the IoT devices because {e}")
+        pass
 
     return [
         {
@@ -69,10 +70,10 @@ def _get_project_data(todo_data_path: str) -> dict:
             todo_data = json.load(file)
 
         if todo_data is None:
-            print("Cannot load in the todo data")
+            # print("Cannot load in the todo data")
             exit()
         
-        print("Loaded in todo data.json")
+        # print("Loaded in todo data.json")
         return todo_data
 
     ## Find progress panel widget
@@ -114,7 +115,7 @@ def _get_project_data(todo_data_path: str) -> dict:
             icon_path = __get_cell_by_id(todo_data, cell_ids[5])["content"]
 
             if tasks_widget_id is None or not os.path.isfile(icon_path):
-                print(str(icon_path) + " is not a valid icon path")
+                # print(str(icon_path) + " is not a valid icon path")
                 continue
 
             projects_tasks.append({
@@ -146,7 +147,7 @@ def _get_project_data(todo_data_path: str) -> dict:
                 elif cell["content"].lower() == "category" or cell["content"].lower() == "course":
                     category_column = i
             if progress_column is None or task_name_column is None or category_column is None:
-                print("warning: unable to find all columns for table: " + tasks_widget["name"])
+                # print("warning: unable to find all columns for table: " + tasks_widget["name"])
                 continue
             
             #4
