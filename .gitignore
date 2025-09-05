@@ -1,9 +1,9 @@
 .env/*
-data/auth.json
-data/website_screenshot.png
-data/touch_to_button.json
-data/data.json
-data/config.yaml
+rapi/data/auth.json
+rapi/data/website_screenshot.png
+rapi/data/touch_to_button.json
+rapi/data/data.json
+rapi/data/config.yaml
 
 # c-code template
 */build/

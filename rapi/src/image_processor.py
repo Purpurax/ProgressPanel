@@ -102,6 +102,9 @@ def _floyd_steinberg_dither(pixels: np.array) -> np.array:
                     working_pixels[y + 1, x + 1] = _add_error_to_pixel(
                         working_pixels[y + 1, x + 1], error_r, error_g, error_b, 1/16
                     )
+        
+        if height >= 20 and y % max(1, height // 20) == 0:
+            print(f"Dithering progress: {y}/{height}")
     
     return pixel_palette_indices
 
