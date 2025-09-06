@@ -49,6 +49,7 @@ const calendarIframe = document.querySelector("iframe[src*='calendar.google.com'
 if (calendarIframe) {
     calendarIframe.addEventListener("load", function () {
         console.log("CALENDAR_IFRAME_LOADED");
+        calendarIframe.contentWindow.scrollTo(0, 0);
     });
 }
 
@@ -59,10 +60,11 @@ function configure_active_project(active_project) {
     fg.style.width = active_project.total_progress * 100 + '%';
     fg.style.backgroundColor = COLOR_PALETTE[active_project.general_color_index];
     title.textContent = active_project.full_name + " Progress";
+    title.style.fontSize = '30px';
 
     // Category progress bars
     const circleList = document.getElementById('circle-progress-list');
-    const lala = createProgressByCategory(
+    const progressbar = createProgressByCategory(
         active_project.categories.map(category =>
             [
                 category.name,
@@ -71,7 +73,7 @@ function configure_active_project(active_project) {
             ]
         )
     );
-    circleList.appendChild(lala);
+    circleList.appendChild(progressbar);
 
     // Full Todo list
     const todoList = document.getElementById('todo-list');
@@ -220,8 +222,10 @@ function createProgressByCategory(category_values) {
     bar.style.height = '28px';
     bar.style.width = '100%';
     bar.style.borderRadius = '8px';
+    bar.style.border = 'solid';
+    bar.style.borderWidth = '2px';
+    bar.style.borderColor = '#000000';
     bar.style.overflow = 'hidden';
-    bar.style.boxShadow = '0 1px 4px rgba(0,0,0,0.06)';
     bar.style.position = 'relative';
 
     sorted.forEach(([name, count, color]) => {
@@ -271,7 +275,6 @@ function createProgressByCategory(category_values) {
 
 function createProgressMiddlePanel(percent, icon, text, color, index) {
     const wrapper = document.createElement('button');
-    wrapper.style.border = 'none';
     wrapper.style.outline = 'none';
     wrapper.style.cursor = 'pointer';
     wrapper.style.padding = '0';
@@ -283,17 +286,19 @@ function createProgressMiddlePanel(percent, icon, text, color, index) {
     wrapper.style.justifyContent = 'flex-end';
     wrapper.style.background = '#fff';
     wrapper.style.borderRadius = '16px';
-    wrapper.style.boxShadow = '0 2px 8px rgba(0,0,0,0.08)';
+    wrapper.style.borderColor = '#000000';
+    wrapper.style.borderStyle = 'solid';
+    wrapper.style.borderWidth = '2px';
     wrapper.style.overflow = 'hidden';
 
     const iconImg = `<img src="${icon}" style="width:100%;height:100%;object-fit:contain;display:block;">`;
 
     const percentValue = Math.round(percent);
     const textHtml = `
-        <div style="width:100%;padding:12px 0 0 0;box-sizing:border-box;position:absolute;bottom:0;left:0;background:rgba(240,240,240,0.95);border-top:1px solid #eee;">
-            <div style="text-align:center;font-size:1.1em;font-weight:600;color:#222;">${text}</div>
+        <div style="width:100%;padding:12px 0 0 0;position:absolute;bottom:0;left:0;background:rgba(256,256,256,0.93);border-width:2px 0 0 0;border-color:#000000;border-style:solid;">
+            <div style="text-align:center;font-size:18px;font-weight:600;color:#222;">${text}</div>
             <div style="margin:8px 12px 0 12px;">
-                <div style="height:8px;width:100%;background:#e0e0e0;border-radius:4px;overflow:hidden;margin-bottom:15px;">
+                <div style="height:8px;width:100%;border-width:2px;border-color:#000000;border-style:solid;background:#e0e0e0;border-radius:4px;overflow:hidden;margin-bottom:15px;">
                     <div style="width:${percentValue}%;height:100%;background:${color};transition:width 0.5s;"></div>
                 </div>
             </div>

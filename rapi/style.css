@@ -19,6 +19,9 @@ body {
     height: 7%;
     padding-bottom: 2%;
     background-color: #ffffff;
+    border-style: solid;
+    border-width: 0 0 3px 0;
+    border-color: #000000;
     /* border-radius: 0 0 30px 30px; */
 }
 .left-panel {
@@ -29,7 +32,10 @@ body {
     justify-content: space-between;
     padding: 1% 1%;
     box-sizing: border-box;
-    background: #eeeeee;
+    background: #ffffff;
+    border-style: solid;
+    border-width: 0 3px 0 0;
+    border-color: #000000;
     position: relative;
 }
 .middle-panel {
@@ -61,10 +67,19 @@ body {
     align-items: center;
     box-sizing: border-box;
 }
+.right-panel iframe {
+    transform: scale(1.2);
+    transform-origin: top left;
+    width:300px; /* 300px / 1.1 */
+    height:810px; /* 1104px / 1.1 */
+    border-width: 0 0 0 3px;
+    border-style: solid;
+    border-color: #000000;
+}
 .main-content {
     display: flex;
     flex-direction: row;
-    background-color: #cccccc;
+    background-color: #eeeeee;
     height: 81%;
     width: 90.2%;
     padding: 0;
@@ -90,12 +105,16 @@ body {
     overflow: hidden;
     display: flex;
     align-items: center;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #000000;
 }
 .foreground {
     background-color: #2ecc40;
     width: 30%;
     height: 100%;
-    border-radius: 15px 0 0 15px;
+    margin-left: 0.2px;
+    border-radius: 10px 0 0 10px;
     transition: width 0.3s;
 }
 .circle-progress-list {
@@ -132,8 +151,9 @@ body {
     padding: 8px 12px;
     border-radius: 8px;
     cursor: pointer;
-    transition: background 0.2s;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    border-width: 1px;
+    border-style: solid;
+    border-color: #000000;
 }
 .todo-list li:hover {
     background: #e0e0e0;
@@ -148,7 +168,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #f8f8f8;
+    background: #ffffff;
     cursor: pointer;
     position: relative;
 }
@@ -162,7 +182,7 @@ body {
 }
 .todo-text {
     flex: 1;
-    font-size: 1rem;
+    font-size: 18px;
     color: #333;
     user-select: none;
 }
@@ -202,9 +222,9 @@ body {
     justify-content: center;
     cursor: pointer;
     border: none;
-    transition: background 0.2s, box-shadow 0.2s;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    font-size: 2rem;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #000000;
 }
 .iot-btn img {
     width: 60%;
@@ -213,5 +233,4 @@ body {
 }
 .iot-btn.on {
     color: #fff;
-    box-shadow: 0 4px 16px rgba(46,204,64,0.15);
 }
