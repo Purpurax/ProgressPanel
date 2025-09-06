@@ -192,10 +192,20 @@ def _get_project_data(todo_data_path: str) -> dict:
     
     return projects_tasks
 
-def scrap_data(config: dict) -> str:
+def scrap_data(config: dict, reset_internal_state: bool) -> str:
+    showing_project = 0
+    if not reset_internal_state:
+        try:
+            with open(config["data_path"], "r", encoding="utf-8") as file:
+                prev_data = json.load(file)
+                showing_project = prev_data.get("showing_project", 0)
+        except:
+            pass
+
+
     data = {
         "iot_devices": _get_iot_device_data(config["homeassistant_url"], config["homeassistant_token"]),
-        "showing_project": 0, # Internal state (resetting at 3am)
+        "showing_project": showing_project,
         "projects": _get_project_data(config["todo_data_path"])
     }
 

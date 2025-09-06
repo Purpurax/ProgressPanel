@@ -20,12 +20,15 @@ config = load_configs()
 
 def scrap():
     # print(f"--- Scraping data --- {datetime.datetime.now().strftime('%Y-%m-%d %H:%M')}")
-    scrap_data(config)
+    if datetime.datetime.now().hour == 3:
+        scrap_data(config, True)
+    else:
+        scrap_data(config, False)
 
 def update_image_on_esp():
     print("=== UPDATING IMAGE ===")
-    with open(os.path.expanduser(config["todo_data_path"]), "rb") as src, \
-         open(os.path.expanduser(config["todo_data_path_uploaded"]), "wb") as dst:
+    with open(os.path.expanduser(config["data_path"]), "rb") as src, \
+         open(os.path.expanduser(config["data_path_uploaded"]), "wb") as dst:
         dst.write(src.read())
 
     print("--- Rendering Webpage ---")
@@ -43,8 +46,8 @@ def should_run_now(last_run_hour):
     if last_run_hour != now.hour and now.hour in [3, 13, 20]:
         return True
     
-    with open(os.path.expanduser(config["todo_data_path"]), "rb") as f1, \
-         open(os.path.expanduser(config["todo_data_path_uploaded"]), "rb") as f2:
+    with open(os.path.expanduser(config["data_path"]), "rb") as f1, \
+         open(os.path.expanduser(config["data_path_uploaded"]), "rb") as f2:
         if f1.read() != f2.read():
             return True
 
